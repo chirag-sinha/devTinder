@@ -44,24 +44,49 @@ const app = express();
 
 // S02E05 Middlewares nad error handling - playing with routing and next();
 
-app.use("/user" , (req,res,next) => {
-    console.log("1st route handler being called .");
-    next();
-    res.send("1st Response !!!");
+// app.use("/user" , (req,res,next) => {
+//     console.log("1st route handler being called .");
+//     next();
+//     res.send("1st Response !!!");
     
-},
-(req,res,next) => {
-    console.log("2nd route handler being called .");
-    next();
-    res.send("2nd Response !!!");
-},(req,res,next) => {
-    console.log("3rd route handler being called .");
-    next();
-    res.send("3rd Response !!!");
-},(req,res,next) => {
-    console.log("4th route handler being called .");
-    res.send("4th Response !!!");
+// },
+// (req,res,next) => {
+//     console.log("2nd route handler being called .");
+//     next();
+//     res.send("2nd Response !!!");
+// },(req,res,next) => {
+//     console.log("3rd route handler being called .");
+//     next();
+//     res.send("3rd Response !!!");
+// },(req,res,next) => {
+//     console.log("4th route handler being called .");
+//     res.send("4th Response !!!");
+// });
+
+
+const {adminAuth , userAuth } = require("./middlewares/auth.js") ;
+
+app.use("/userAuth" , userAuth);
+
+app.use("/adminAuth" , adminAuth);
+
+app.use(("/adminAuth/getData") , (req,res) => {
+    res.send("All data is received from admin.");
 });
+app.use(("/adminAuth/sendData") , (req,res) => {
+    res.send("All data is sent from admin.");
+});
+
+app.use(("/userAuth/getData") , (req,res) => {
+    res.send("All data is received  from user.");
+});
+app.use(("/userAuth/getData") , (req,res) => {
+    res.send("All data is sent from user.");
+});
+
+
+
+
 
 app.listen(3000 , () => {
     console.log("server is listening on port 3000...");
