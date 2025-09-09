@@ -7,10 +7,10 @@ const app = express();
 
 app.post("/signup", async (req, res) => {
     const user = new User({
-    firstName: "Akshay",
-    lastName: "Saini",
-    emailID: "akshay@saini.com",
-    password: "akshay@123",
+    firstName: "ginni",
+    lastName: "jji",
+    emailID: "GINNI@jii.com",
+    password: "ginni@123",
 });
  try {
     await user.save();
