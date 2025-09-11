@@ -20,6 +20,31 @@ app.get("/user" , async (req ,res)=> {
     }
 });
 
+app.delete("/user", async (req,res) => {
+    const userId = req.body.userId ;
+    try{
+        const user = await User.findByIdAndDelete(userId);
+        res.send("User deleted successfully!!!");
+
+    }catch(err){
+        res.status(404).send("Something went so much wrong!!!");
+    }
+})
+
+app.patch("/user" , async (req,res)=>{
+    console.log(req.body);
+        const userId = req.body.userId ;
+        const data = req.body ;
+    try {
+        await User.findByIdAndUpdate(userId , data);
+        console.log(data);
+        res.send("User updated SuccessFully");
+
+    }catch(err){
+        res.status(404).send("Something went so much wrong!!!");
+    }
+})
+
 app.get("/feed" , async (req,res) => {
     try{
         const users = await User.find({});
