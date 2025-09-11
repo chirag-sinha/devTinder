@@ -31,11 +31,17 @@ app.delete("/user", async (req,res) => {
     }
 })
 
-app.patch("/user" , async (req,res)=>{
-    console.log(req.body);
-        const userId = req.body.userId ;
+app.patch("/user/:userId" , async (req,res)=>{
+    
+        const userId = req.params?.userId ;
         const data = req.body ;
     try {
+        const ALLOWED_UPDATES = ["age" , "about" , "gender" , "skills"];
+        const isUpdateAllowed = Object.keys(data).every((k)=> ALLOWED_UPDATES.includes(k));
+        if(!isUpdateAllowed){
+            throw new Error("Some fields not Allowed to be updated.");
+        }
+
         await User.findByIdAndUpdate(userId , data);
         console.log(data);
         res.send("User updated SuccessFully");
