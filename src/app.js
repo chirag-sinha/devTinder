@@ -96,21 +96,17 @@ app.post("/signup", async (req, res) => {
 app.post("/login" , async (req,res) =>{
     try{
         const {emailID ,password} = req.body;
-         if(!validator.isEmail(emailID)){
-            throw new Error ("Email not valid!!!");
-        }
-
+          
         const user = await User.findOne({emailID:emailID});
         if (!user){
             throw new Error("Invalid Credentials");
         }
-        const isPasswordValid = await bcrypt.compare (password , user.password);
+        const isPasswordValid = await user.validatePassword(password);
         if (isPasswordValid){
-
             //create JWT tokens
-            const token = await jwt.sign({ _id:user._id },"DEV@Tinder$123");
+            const token = await user.getJWT(); 
             //send the token in a cookie and send the response
-            res.cookie("token" , token);
+            res.cookie("token" , token,{expires: new Date(Date.now() + 8 * 3600000),});
             res.send("Login Successful");
         }else{
             throw new Error ("Invalid Credentials");
