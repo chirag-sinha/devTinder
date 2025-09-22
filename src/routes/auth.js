@@ -56,6 +56,9 @@ authRouter.post("/login" , async (req,res) =>{
  }
 })
 
+authRouter.pose("/logout" , async(req,res)=>{
+    
+})
 
 module.exports = authRouter ;
 
